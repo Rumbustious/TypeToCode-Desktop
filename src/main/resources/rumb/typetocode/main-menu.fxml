@@ -10,20 +10,11 @@
    <stylesheets>
       <URL value="@styles.css" />
    </stylesheets>
-   <children>
       <!-- Center content -->
       <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="20">
          <ImageView fitHeight="108.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">
-            <image>
                <Image url="@logo.png" />
-            </image>
          </ImageView>
-         <!-- Title -->
-<!--         <Text styleClass="main-title" text="TypeToCode">-->
-<!--            <font>-->
-<!--               <Font size="40.0" />-->
-<!--            </font>-->
-<!--         </Text>-->
 
          <!-- Welcome message -->
          <Text styleClass="welcome-message" text="Welcome to your coding assistant">
@@ -34,15 +25,14 @@
 
          <!-- Buttons -->
          <VBox alignment="CENTER" spacing="10">
-            <Button styleClass="menu-button" text="Start Typing" />
+            <Button styleClass="menu-button" text="Start Typing Test" fx:id="typingTestButton" onAction="#handleTypingTestClick" />
             <Button prefHeight="43.0" prefWidth="121.0" styleClass="menu-button" text="Tutorial" />
             <Button prefHeight="42.0" prefWidth="122.0" styleClass="menu-button" text="Settings" />
          </VBox>
       </VBox>
 
       <!-- GitHub Icon in the bottom left corner -->
-      <ImageView fx:id="githubIcon" fitHeight="24.0" fitWidth="24.0" layoutX="10.0" layoutY="366.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="githubIcon" fitHeight="24.0" fitWidth="24.0" layoutX="25.0" layoutY="361.0" pickOnBounds="true" preserveRatio="true">
          <Image url="@github-icon.png" />
       </ImageView>
-   </children>
 </AnchorPane>
