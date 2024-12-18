@@ -13,7 +13,6 @@
     -fx-text-alignment: center;
 }
 
-
 /* Welcome message styling */
 .welcome-message {
     -fx-fill: #4caf50; /* Medium green */
@@ -37,8 +36,6 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
 }
 
-
-
 /* GitHub icon hover effect */
 #githubIcon {
     -fx-cursor: hand;
@@ -49,5 +46,58 @@
     -fx-opacity: 1.0;
 }
 
+.header-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
 
+.typing-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #555;
+}
 
+.action-button {
+    -fx-background-color: #0078D7;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+}
+
+.result-text {
+    -fx-font-size: 18px;
+    -fx-text-fill: #4CAF50;
+    -fx-font-weight: bold;
+}
+
+/* Light Theme */
+.light-theme {
+    -fx-background-color: #f0f0f0;
+    -fx-text-fill: #000000;
+}
+
+/* Dark Theme */
+.dark-theme {
+    -fx-background-color: #1e1e1e;
+    -fx-text-fill: #ffffff;
+}
+
+/* Responsive adjustments */
+@media only screen and (max-width: 600px) {
+    .main-title {
+        -fx-font-size: 18px;
+    }
+    .menu-button {
+        -fx-font-size: 14px;
+    }
+    .header-text {
+        -fx-font-size: 18px;
+    }
+    .typing-text {
+        -fx-font-size: 14px;
+    }
+    .action-button {
+        -fx-font-size: 12px;
+        -fx-padding: 8 16;
+    }
+}
