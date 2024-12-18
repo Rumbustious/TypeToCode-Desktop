@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<?import java.net.URL?>
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.14-internal" > <!-- fx:controller="rumb.typetocode.TypingTestController" -->
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+
+    <!-- Main content layout -->
+    <VBox alignment="CENTER" prefWidth="600.0" prefHeight="400.0" spacing="20">
+        <!-- Title -->
+        <Text styleClass="header-text" text="Typing Speed Test">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Text>
+
+        <!-- Text to Type -->
+        <Label fx:id="textToTypeLabel" wrapText="true" styleClass="typing-text" text="This is the text you need to type. Try to be as fast and accurate as you can!" />
+
+        <!-- Typing Area -->
+        <TextArea fx:id="typingArea" promptText="Type here..." prefHeight="100.0" prefWidth="500.0" />
+
+        <!-- Buttons -->
+        <HBox alignment="CENTER" spacing="15">
+            <Button text="Start" fx:id="startButton" styleClass="action-button"  /> <!-- onAction="#handleStartButton" -->
+            <Button text="Submit" fx:id="submitButton" styleClass="action-button" /> <!-- onAction="#handleSubmitButton" -->
+        </HBox>
+
+        <!-- Result -->
+<!--        <Label fx:id="resultLabel" text="" styleClass="result-text" />-->
+    </VBox>
+</AnchorPane>
