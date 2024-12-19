@@ -5,13 +5,7 @@
     -fx-background-color: #0c0a09; /* A soft light green background */
 }
 
-/* Main title styling */
-.main-title {
-    -fx-fill: #2e7d32; /* Dark green for title */
-    -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
-    -fx-text-alignment: center;
-}
+
 
 /* Welcome message styling */
 .welcome-message {
@@ -36,21 +30,7 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
 }
 
-/* GitHub icon hover effect */
-#githubIcon {
-    -fx-cursor: hand;
-    -fx-opacity: 0.8;
-}
 
-#githubIcon:hover {
-    -fx-opacity: 1.0;
-}
-
-.header-text {
-    -fx-font-size: 24px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333;
-}
 
 .typing-text {
     -fx-font-size: 16px;
@@ -70,17 +50,7 @@
     -fx-font-weight: bold;
 }
 
-/* Light Theme */
-.light-theme {
-    -fx-background-color: #f0f0f0;
-    -fx-text-fill: #000000;
-}
 
-/* Dark Theme */
-.dark-theme {
-    -fx-background-color: #1e1e1e;
-    -fx-text-fill: #ffffff;
-}
 
 /* Responsive adjustments */
 @media only screen and (max-width: 600px) {
@@ -101,3 +71,4 @@
         -fx-padding: 8 16;
     }
 }
+

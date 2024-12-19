@@ -20,16 +20,12 @@ public class MainMenuController {
 
             // Get the current stage from the event source
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-            // Set the new scene
             stage.setScene(new Scene(typingTestPage));
             stage.setTitle("Typing Test");
-            stage.setMaximized(true);
             stage.show();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
 }

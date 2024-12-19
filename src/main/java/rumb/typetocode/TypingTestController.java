@@ -23,7 +23,13 @@ public class TypingTestController {
     @FXML
     private void handleStartButton(ActionEvent event) {
         // Logic to start the typing test
-        textToTypeLabel.setText("New text to type...");
+        textToTypeLabel.setText("""
+                class HelloWorld {
+                    public static void main(String[] args) {
+                        System.out.println("Hello, World!");\s
+                    }
+                }
+                """);
         typingArea.clear();
         typingArea.setEditable(true);
     }
@@ -32,6 +38,7 @@ public class TypingTestController {
     private void handleSubmitButton(ActionEvent event) {
         String typedText = typingArea.getText();
 
+        typingArea.clear();
         typingArea.setEditable(false);
     }
 }
