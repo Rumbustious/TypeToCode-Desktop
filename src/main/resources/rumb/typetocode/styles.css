@@ -5,8 +5,6 @@
     -fx-background-color: #0c0a09; /* A soft light green background */
 }
 
-
-
 /* Welcome message styling */
 .welcome-message {
     -fx-fill: #4caf50; /* Medium green */
@@ -30,11 +28,15 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
 }
 
-
-
 .typing-text {
-    -fx-font-size: 16px;
-    -fx-text-fill: #555;
+    -fx-font-size: 18px; /* Increased font size */
+    -fx-text-fill: #f0f0f0; /* Light grey text color */
+}
+
+.example-text-container {
+    -fx-background-color: #2e2e2e; /* Dark grey background */
+    -fx-padding: 10px;
+    -fx-border-radius: 5px;
 }
 
 .action-button {
@@ -49,8 +51,6 @@
     -fx-text-fill: #4CAF50;
     -fx-font-weight: bold;
 }
-
-
 
 /* Responsive adjustments */
 @media only screen and (max-width: 600px) {
@@ -71,4 +71,3 @@
         -fx-padding: 8 16;
     }
 }
-
