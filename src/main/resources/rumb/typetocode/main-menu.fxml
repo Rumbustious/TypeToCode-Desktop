@@ -4,32 +4,38 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.net.URL?>
-<StackPane xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="rumb.typetocode.MainMenuController" styleClass="root">
-   <stylesheets>
-      <URL value="@styles.css" />
-   </stylesheets>
+<?import javafx.geometry.Insets?>
 
-   <!-- Centered content -->
-   <VBox alignment="CENTER" spacing="20">
-      <!-- Logo -->
-      <ImageView fitHeight="108.0" fitWidth="349.0" pickOnBounds="true" preserveRatio="true">
-         <Image url="@logo.png" /> <!-- Make sure logo.png exists in the resources folder -->
-      </ImageView>
+<StackPane xmlns="http://javafx.com/javafx/11.0.14-internal" 
+           xmlns:fx="http://javafx.com/fxml/1" 
+           fx:controller="rumb.typetocode.MainMenuController" 
+           styleClass="root">
+    
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
 
-      <!-- Welcome message -->
-      <Text styleClass="welcome-message" text="Welcome to your coding assistant">
-         <font>
-            <Font size="20.0" />
-         </font>
-      </Text>
+    <VBox alignment="CENTER" spacing="40">
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
 
-      <!-- Buttons -->
-      <VBox alignment="CENTER" spacing="10">
-         <Button fx:id="typingTestButton" styleClass="menu-button" text="Start Typing Test" onAction="#handleTypingTestClick" />
-         <Button prefHeight="43.0" prefWidth="121.0" styleClass="menu-button" text="Tutorial" />
-         <Button prefHeight="42.0" prefWidth="122.0" styleClass="menu-button" text="Settings" />
-      </VBox>
-   </VBox>
+        <!-- Logo -->
+        <ImageView fitHeight="120.0" fitWidth="360.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@logo.png" />
+        </ImageView>
 
+        <!-- Welcome message -->
+        <Text styleClass="welcome-message" text="Welcome to your coding assistant" />
 
+        <!-- Buttons Container -->
+        <VBox alignment="CENTER" spacing="20">
+            <Button fx:id="typingTestButton" 
+                    styleClass="menu-button" 
+                    text="Start Typing Test" 
+                    onAction="#handleTypingTestClick" />
+            <Button styleClass="menu-button" text="Tutorial" />
+            <Button styleClass="menu-button" text="Settings" />
+        </VBox>
+    </VBox>
 </StackPane>

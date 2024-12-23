@@ -1,73 +1,135 @@
-/* styles.css */
-
-/* Set background color for the AnchorPane */
+/* Root and Theme Colors */
 .root {
-    -fx-background-color: #0c0a09; /* A soft light green background */
+    -fx-background-color: #1e1e1e;
 }
 
-/* Welcome message styling */
+/* Welcome Screen Styling */
 .welcome-message {
-    -fx-fill: #4caf50; /* Medium green */
-    -fx-font-style: italic;
+    -fx-fill: #4caf50;
+    -fx-font-size: 24px;
     -fx-text-alignment: center;
-}
-
-/* Button styling */
-.menu-button {
-    -fx-background-color: #4caf50; /* Green for button */
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-background-radius: 10;
-    -fx-padding: 8 16;
-    -fx-cursor: hand;
-}
-
-.menu-button:hover {
-    -fx-background-color: #43a047; /* Slightly darker green on hover */
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
 }
 
-.typing-text {
-    -fx-font-size: 18px; /* Increased font size */
-    -fx-text-fill: #f0f0f0; /* Light grey text color */
+.menu-button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-width: 200px;
+    -fx-min-height: 40px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+}
+
+.menu-button:hover {
+    -fx-background-color: #45a049;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
+}
+
+/* Typing Test Page Styling */
+.header-text {
+    -fx-fill: #4caf50;
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
 }
 
 .example-text-container {
-    -fx-background-color: #2e2e2e; /* Dark grey background */
-    -fx-padding: 10px;
+    -fx-background-color: #2d2d2d;
+    -fx-padding: 20px;
     -fx-border-radius: 5px;
+    -fx-border-color: #3e3e3e;
+    -fx-border-width: 1px;
+    -fx-min-height: 200px;
 }
 
-.action-button {
-    -fx-background-color: #0078D7;
-    -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 10 20;
+.typing-text {
+    -fx-font-family: "Consolas", "Monaco", monospace;
+    -fx-font-size: 16px;
+    -fx-line-spacing: 1.5;
+    -fx-fill: #d4d4d4;
 }
 
-.result-text {
-    -fx-font-size: 18px;
-    -fx-text-fill: #4CAF50;
+.typing-area {
+    -fx-font-family: "Consolas", "Monaco", monospace;
+    -fx-font-size: 16px;
+    -fx-background-color: #2d2d2d;
+    -fx-text-fill: #d4d4d4;
+    -fx-padding: 15px;
+    -fx-border-color: #3e3e3e;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+    -fx-min-height: 100px;
+}
+
+.timer-text {
+    -fx-font-size: 20px;
+    -fx-text-fill: #4caf50;
     -fx-font-weight: bold;
 }
 
-/* Responsive adjustments */
-@media only screen and (max-width: 600px) {
-    .main-title {
-        -fx-font-size: 18px;
-    }
-    .menu-button {
-        -fx-font-size: 14px;
-    }
+.action-button {
+    -fx-background-color: #4caf50;
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-min-width: 150px;
+    -fx-min-height: 40px;
+    -fx-background-radius: 5px;
+    -fx-cursor: hand;
+    -fx-padding: 10px 20px;
+}
+
+.action-button:hover {
+    -fx-background-color: #45a049;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 4, 0.5, 0, 1);
+}
+
+/* Code Highlighting */
+.keyword {
+    -fx-fill: #569cd6;
+}
+
+.string {
+    -fx-fill: #ce9178;
+}
+
+.comment {
+    -fx-fill: #6a9955;
+}
+
+.indent-guide {
+    -fx-fill: #404040;
+}
+
+/* Results Display */
+.result-text {
+    -fx-font-size: 24px;
+    -fx-fill: #4caf50;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
     .header-text {
-        -fx-font-size: 18px;
+        -fx-font-size: 20px;
     }
+
     .typing-text {
         -fx-font-size: 14px;
     }
-    .action-button {
-        -fx-font-size: 12px;
-        -fx-padding: 8 16;
+
+    .typing-area {
+        -fx-font-size: 14px;
+    }
+
+    .menu-button, .action-button {
+        -fx-font-size: 14px;
+        -fx-min-width: 120px;
+        -fx-min-height: 35px;
     }
 }
