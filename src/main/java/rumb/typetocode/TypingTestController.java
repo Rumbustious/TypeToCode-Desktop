@@ -31,6 +31,13 @@ public class TypingTestController {
     private int correctChars = 0;
     private int totalChars = 0;
 
+    // Add these regex patterns as class fields
+    private static final Pattern CODE_PATTERN = Pattern.compile(
+        "\\b(public|class|static|void|main|String|System|out|println)\\b|" +  // keywords
+        "(\"[^\"]*\")|" +                                                     // strings
+        "([{};().])"                                                         // symbols
+    );
+
     @FXML
     private void initialize() {
         typingArea.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -131,78 +138,83 @@ public class TypingTestController {
     private void updateDisplayText() {
         displayText.getChildren().clear();
         
-        int pos = 0;
-        String[] lines = textToType.split("\n", -1);
-        
-        for (int i = 0; i < lines.length; i++) {
-            String line = lines[i];
-            
-            // Handle indentation
-            int indentCount = 0;
-            while (indentCount < line.length() && line.charAt(indentCount) == '\t') {
-                Text tabText = new Text("    "); // 4 spaces for each tab
-                tabText.setStyle("-fx-fill: #666666;"); // Subtle color for indentation
-                displayText.getChildren().add(tabText);
-                indentCount++;
-            }
-            
-            // Format the rest of the line
-            String codeLine = line.substring(indentCount);
-            formatCodeLine(codeLine, pos < currentPosition ? codeLine.length() : 
-                          currentPosition - pos);
-            
-            pos += line.length() + 1; // +1 for newline
-            
-            // Add newline except for last line
-            if (i < lines.length - 1) {
-                displayText.getChildren().add(new Text("\n"));
-            }
-        }
-    }
-    private void formatCodeLine(String line, int cursorPos) {
-    // Add syntax highlighting for keywords, strings, etc.
-    Pattern pattern = Pattern.compile(
-        "\\b(public|class|static|void|main|String)\\b|" +
-        "(\"[^\"]*\")|" +
-        "([{};()])"
-    );
-    
-    Matcher matcher = pattern.matcher(line);
-    int lastEnd = 0;
-    
-    while (matcher.find()) {
-        // Add text before the match
-        if (matcher.start() > lastEnd) {
-            addTextSegment(line.substring(lastEnd, matcher.start()), "normal");
+        // Split into segments
+        String completedText = textToType.substring(0, currentPosition);
+        String currentChar = currentPosition < textToType.length() ? 
+                            String.valueOf(textToType.charAt(currentPosition)) : "";
+        String remainingText = currentPosition < textToType.length() - 1 ? 
+                              textToType.substring(currentPosition + 1) : "";
+
+        // Add completed text with syntax highlighting and green background
+        if (!completedText.isEmpty()) {
+            formatCodeSegment(completedText, "-fx-background-color: rgba(76,175,80,0.2);"); // Light green background
         }
 
-        // Add the matched text with appropriate style
-        String match = matcher.group();
-        if (matcher.group(1) != null) {
-            addTextSegment(match, "keyword");
-        } else if (matcher.group(2) != null) {
-            addTextSegment(match, "string");
+        // Add current character with syntax highlighting and cursor/error indication
+        if (!currentChar.isEmpty()) {
+            Text current = new Text(currentChar);
+            applySyntaxHighlighting(current, currentChar);
+            current.setStyle(current.getStyle() + ";" + (errorCount > 0 ? 
+                "-fx-background-color: rgba(255,0,0,0.2); -fx-underline: true;" : // Light red background
+                "-fx-background-color: rgba(33,150,243,0.2); -fx-underline: true;")); // Light blue background
+            displayText.getChildren().add(current);
+        }
+
+        // Add remaining text with only syntax highlighting
+        if (!remainingText.isEmpty()) {
+            formatCodeSegment(remainingText, null);
+        }
+    }
+
+    private void formatCodeSegment(String text, String additionalStyle) {
+        Matcher matcher = CODE_PATTERN.matcher(text);
+        int lastEnd = 0;
+        
+        while (matcher.find()) {
+            // Add text before match
+            if (matcher.start() > lastEnd) {
+                Text normalText = new Text(text.substring(lastEnd, matcher.start()));
+                normalText.setStyle("-fx-fill: #d4d4d4" + (additionalStyle != null ? ";" + additionalStyle : ""));
+                displayText.getChildren().add(normalText);
+            }
+
+            // Add matched text with appropriate style
+            String match = matcher.group();
+            Text matchedText = new Text(match);
+            
+            if (matcher.group(1) != null) {
+                matchedText.setStyle("-fx-fill: #569cd6" + (additionalStyle != null ? ";" + additionalStyle : "")); // keywords
+            } else if (matcher.group(2) != null) {
+                matchedText.setStyle("-fx-fill: #ce9178" + (additionalStyle != null ? ";" + additionalStyle : "")); // strings
+            } else {
+                matchedText.setStyle("-fx-fill: #d4d4d4" + (additionalStyle != null ? ";" + additionalStyle : "")); // symbols
+            }
+            
+            displayText.getChildren().add(matchedText);
+            lastEnd = matcher.end();
+        }
+
+        // Add remaining text
+        if (lastEnd < text.length()) {
+            Text remaining = new Text(text.substring(lastEnd));
+            remaining.setStyle("-fx-fill: #d4d4d4" + (additionalStyle != null ? ";" + additionalStyle : ""));
+            displayText.getChildren().add(remaining);
+        }
+    }
+
+    private void applySyntaxHighlighting(Text text, String content) {
+        Matcher matcher = CODE_PATTERN.matcher(content);
+        if (matcher.matches()) {
+            if (matcher.group(1) != null) {
+                text.setStyle("-fx-fill: #569cd6"); // keywords
+            } else if (matcher.group(2) != null) {
+                text.setStyle("-fx-fill: #ce9178"); // strings
+            } else {
+                text.setStyle("-fx-fill: #d4d4d4"); // symbols
+            }
         } else {
-            addTextSegment(match, "normal");
+            text.setStyle("-fx-fill: #d4d4d4"); // normal text
         }
-        
-        lastEnd = matcher.end();
-    }
-    
-    // Add remaining text
-    if (lastEnd < line.length()) {
-        addTextSegment(line.substring(lastEnd), "normal");
-    }
-    }
-
-    private void addTextSegment(String text, String style) {
-        Text textNode = new Text(text);
-        switch (style) {
-            case "keyword" -> textNode.setStyle("-fx-fill: #569cd6;");
-            case "string" -> textNode.setStyle("-fx-fill: #ce9178;");
-            default -> textNode.setStyle("-fx-fill: #d4d4d4;");
-        }
-        displayText.getChildren().add(textNode);
     }
 
     private void startTimer() {
