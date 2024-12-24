@@ -14,6 +14,7 @@ import javafx.util.Duration;
 import javafx.event.ActionEvent;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.application.Platform;
 
 public class TypingTestController {
     @FXML private TextFlow displayText;
@@ -97,12 +98,16 @@ public class TypingTestController {
         typingArea.setEditable(true);
         updateDisplayText();
         startTimer();
+        // Request focus to typing area after a small delay to ensure UI is ready
+    Platform.runLater(() -> {
+        typingArea.requestFocus();
+    });
     }
 
     private void handleTyping(String oldValue, String newValue) {
         if (!testActive) return;
 
-        totalKeystrokes++; // Count every keystroke
+        totalKeystrokes++; // Count EVERY keystroke
 
         // Handle backspace
         if (newValue.length() < oldValue.length()) {
@@ -118,6 +123,7 @@ public class TypingTestController {
             return;
         }
 
+        // Handle new character
         if (currentPosition < textToType.length() && newValue.length() > oldValue.length()) {
             char expectedChar = textToType.charAt(currentPosition);
             char typedChar = newValue.charAt(newValue.length() - 1);
@@ -131,11 +137,13 @@ public class TypingTestController {
 
             if (typedChar != expectedChar) {
                 wrongText += typedChar;
+                errorCount++;
                 typingArea.setStyle("-fx-text-fill: red;");
                 updateDisplayText();
                 return;
             }
 
+            // Only increment correct keystrokes for perfect matches
             correctKeystrokes++;
             currentPosition++;
             typingArea.setStyle("-fx-text-fill: green;");
@@ -279,33 +287,16 @@ public class TypingTestController {
     private void handleTabPress() {
         if (!testActive || !wrongText.isEmpty()) return;
         
-        // Check next 4 characters
-        int spacesAhead = 0;
-        for (int i = currentPosition; i < textToType.length() && spacesAhead < 4; i++) {
-            if (textToType.charAt(i) == ' ') {
-                spacesAhead++;
-            } else {
-                break;
-            }
-        }
+        totalKeystrokes++; // Count tab press as a keystroke
         
-        if (spacesAhead == 4) {
-            // Valid indentation - advance 4 spaces
-            for (int i = 0; i < 4; i++) {
-                currentPosition++;
-                correctKeystrokes++;
-            }
-            totalKeystrokes++; // Count tab as one keystroke
-            typingArea.setStyle("-fx-text-fill: green;");
+        if (currentPosition + 4 <= textToType.length() && 
+            textToType.substring(currentPosition, currentPosition + 4).equals("    ")) {
+            currentPosition += 4;
+            correctKeystrokes++; // Count as one correct keystroke
+            updateDisplayText();
         } else {
-            // Invalid tab usage - count as one error
-            wrongText = " ";
             errorCount++;
-            totalKeystrokes++;
-            typingArea.setStyle("-fx-text-fill: red;");
         }
-        
-        updateDisplayText();
     }
 
     private boolean isValidTabPosition() {
@@ -411,15 +402,15 @@ public class TypingTestController {
         // WPM calculation using correct keystrokes only
         double wpm = Math.floor((correctKeystrokes / 5.0) / elapsedTimeMinutes);
         
-        // Accuracy using total keystrokes
+        // Raw accuracy calculation - no rounding to 100%
         double accuracy = totalKeystrokes > 0 ? 
             ((double) correctKeystrokes / totalKeystrokes) * 100 : 0;
         
         displayText.getChildren().clear();
         Text resultText = new Text(String.format(
             "Test Complete!\nWPM: %.0f\nAccuracy: %.1f%%\n" +
-            "Total Keystrokes: %d\nCorrect Keystrokes: %d",
-            wpm, accuracy, totalKeystrokes, correctKeystrokes));
+            "Total Keystrokes: %d\nCorrect Keystrokes: %d\nErrors: %d",
+            wpm, accuracy, totalKeystrokes, correctKeystrokes, errorCount));
         resultText.getStyleClass().add("result-text");
         displayText.getChildren().add(resultText);
         
