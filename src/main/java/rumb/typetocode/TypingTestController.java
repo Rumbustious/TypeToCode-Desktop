@@ -34,6 +34,8 @@ public class TypingTestController {
     private int totalChars = 0;
     private String wrongText = ""; // Add this field to track wrong characters
     private long startTime;
+    private int totalKeystrokes = 0;     // All keystrokes including errors/backspace
+    private int correctKeystrokes = 0;    // Only correctly typed characters
 
     // Add these regex patterns as class fields
     private static final Pattern CODE_PATTERN = Pattern.compile(
@@ -79,16 +81,17 @@ public class TypingTestController {
         testActive = true;
         currentPosition = 0;
         errorCount = 0;
-        correctChars = 0;
-        totalChars = 0;
+        totalKeystrokes = 0;
+        correctKeystrokes = 0;
+        wrongText = "";
         startTime = System.currentTimeMillis();
         
-        textToType = """
-                public class HelloWorld {
-                    public static void main(String[] args) {
-                        System.out.println("Hello, World!");
-                    }
-                }""";
+        textToType = formatCodeExample("""
+                        public class HelloWorld {
+                            public static void main(String[] args) {
+                                System.out.println("Hello, World!");
+                            }
+                        }""");
         
         typingArea.clear();
         typingArea.setEditable(true);
@@ -99,62 +102,43 @@ public class TypingTestController {
     private void handleTyping(String oldValue, String newValue) {
         if (!testActive) return;
 
+        totalKeystrokes++; // Count every keystroke
+
         // Handle backspace
         if (newValue.length() < oldValue.length()) {
             if (!wrongText.isEmpty()) {
-                // Remove last character from wrong text
                 wrongText = wrongText.substring(0, wrongText.length() - 1);
-                // Update typing area style based on wrong text status
                 if (wrongText.isEmpty()) {
                     typingArea.setStyle("-fx-text-fill: green;");
                 }
             } else {
                 currentPosition--;
-                validTextLength--;
             }
             updateDisplayText();
             return;
         }
 
-        // Check error limit
-        if (errorCount >= MAX_ERRORS) {
-            typingArea.setText(oldValue);
-            return;
-        }
-
-        // Handle new character
         if (currentPosition < textToType.length() && newValue.length() > oldValue.length()) {
             char expectedChar = textToType.charAt(currentPosition);
             char typedChar = newValue.charAt(newValue.length() - 1);
 
-            // If we have wrong text, accumulate it
             if (!wrongText.isEmpty()) {
                 wrongText += typedChar;
                 typingArea.setStyle("-fx-text-fill: red;");
-                if (wrongText.length() >= MAX_ERRORS) {
-                    typingArea.setText(oldValue);
-                }
                 updateDisplayText();
                 return;
             }
 
-            // Check if new character is correct
             if (typedChar != expectedChar) {
                 wrongText += typedChar;
                 typingArea.setStyle("-fx-text-fill: red;");
-                errorCount++;
-                totalChars++;
                 updateDisplayText();
                 return;
             }
 
-            // Correct character typed
+            correctKeystrokes++;
             currentPosition++;
-            validTextLength++;
-            correctChars++;
-            totalChars++;
             typingArea.setStyle("-fx-text-fill: green;");
-
             updateDisplayText();
 
             if (currentPosition >= textToType.length()) {
@@ -294,29 +278,30 @@ public class TypingTestController {
 
     private void handleTabPress() {
         if (!testActive || !wrongText.isEmpty()) return;
-
-        // Check for expected indentation
-        int expectedSpaces = 0;
-        int pos = currentPosition;
         
-        while (pos < textToType.length() && textToType.charAt(pos) == ' ' && expectedSpaces < 4) {
-            expectedSpaces++;
-            pos++;
+        // Check next 4 characters
+        int spacesAhead = 0;
+        for (int i = currentPosition; i < textToType.length() && spacesAhead < 4; i++) {
+            if (textToType.charAt(i) == ' ') {
+                spacesAhead++;
+            } else {
+                break;
+            }
         }
-
-        if (expectedSpaces == 4) {
-            // Tab is correct here - advance 4 spaces
+        
+        if (spacesAhead == 4) {
+            // Valid indentation - advance 4 spaces
             for (int i = 0; i < 4; i++) {
                 currentPosition++;
-                correctChars++;
+                correctKeystrokes++;
             }
-            totalChars++;
+            totalKeystrokes++; // Count tab as one keystroke
             typingArea.setStyle("-fx-text-fill: green;");
         } else {
-            // Wrong tab usage - count as one error
+            // Invalid tab usage - count as one error
             wrongText = " ";
             errorCount++;
-            totalChars++;
+            totalKeystrokes++;
             typingArea.setStyle("-fx-text-fill: red;");
         }
         
@@ -421,27 +406,27 @@ public class TypingTestController {
         
         typingArea.setEditable(false);
         
-        long endTime = System.currentTimeMillis();
-        double elapsedTimeMinutes = (endTime - startTime) / 60000.0;
+        double elapsedTimeMinutes = (System.currentTimeMillis() - startTime) / 60000.0;
         
-        // Calculate WPM: (total keys pressed / 5) / time in minutes
-        double wpm = Math.floor((totalChars / 5.0) / elapsedTimeMinutes);
+        // WPM calculation using correct keystrokes only
+        double wpm = Math.floor((correctKeystrokes / 5.0) / elapsedTimeMinutes);
         
-        // Calculate accuracy: (correct keys / total keys) * 100
-        double accuracy = totalChars > 0 ? ((double) correctChars / totalChars) * 100 : 0;
+        // Accuracy using total keystrokes
+        double accuracy = totalKeystrokes > 0 ? 
+            ((double) correctKeystrokes / totalKeystrokes) * 100 : 0;
         
         displayText.getChildren().clear();
         Text resultText = new Text(String.format(
-            "Test Complete!\nWPM: %.0f\nAccuracy: %.1f%%", 
-            wpm, accuracy));
-        resultText.setStyle("-fx-fill: green;");
+            "Test Complete!\nWPM: %.0f\nAccuracy: %.1f%%\n" +
+            "Total Keystrokes: %d\nCorrect Keystrokes: %d",
+            wpm, accuracy, totalKeystrokes, correctKeystrokes));
+        resultText.getStyleClass().add("result-text");
         displayText.getChildren().add(resultText);
         
         startButton.setText("Try Again");
     }
 
-    private void formatCodeExample(String code) {
-        // Preserve indentation using actual tab characters
+    private String formatCodeExample(String code) {
         StringBuilder formattedCode = new StringBuilder();
         String[] lines = code.split("\n");
         int indentLevel = 0;
@@ -454,12 +439,10 @@ public class TypingTestController {
                 indentLevel = Math.max(0, indentLevel - 1);
             }
             
-            // Add indentation
-            for (int i = 0; i < indentLevel; i++) {
-                formattedCode.append('\t');
-            }
-            
-            formattedCode.append(trimmedLine).append('\n');
+            // Add proper 4-space indentation
+            formattedCode.append(" ".repeat(indentLevel * 4))
+                        .append(trimmedLine)
+                        .append("\n");
             
             // Increase indent after opening braces
             if (trimmedLine.endsWith("{")) {
@@ -467,6 +450,6 @@ public class TypingTestController {
             }
         }
         
-        textToType = formattedCode.toString();
+        return formattedCode.toString();
     }
 }
