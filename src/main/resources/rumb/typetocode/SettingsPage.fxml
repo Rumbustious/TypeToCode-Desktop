@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import java.net.URL?>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="rumb.typetocode.SettingsController"
+      styleClass="root" spacing="20" alignment="CENTER">
+
+    <stylesheets>
+        <URL value="@styles.css" />
+    </stylesheets>
+
+    <Label text="Test Duration" styleClass="header-text"/>
+    
+    <VBox spacing="10" alignment="CENTER">
+        <RadioButton fx:id="oneMinute" text="1 Minute" selected="true" toggleGroup="$timeGroup"/>
+        <RadioButton fx:id="threeMinutes" text="3 Minutes" toggleGroup="$timeGroup"/>
+        <RadioButton fx:id="fiveMinutes" text="5 Minutes" toggleGroup="$timeGroup"/>
+    </VBox>
+
+    <Button text="Save" onAction="#handleSave" styleClass="action-button"/>
+    <Button text="Back" onAction="#handleBack" styleClass="action-button"/>
+</VBox>

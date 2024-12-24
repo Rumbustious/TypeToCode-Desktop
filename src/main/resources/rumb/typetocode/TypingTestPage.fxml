@@ -21,12 +21,13 @@
                 <!-- Title -->
                 <Text styleClass="header-text" text="Typing Speed Test" />
                 
+
                 <!-- Timer -->
                 <Label fx:id="timerLabel" styleClass="timer-text" text="Time Left: 60s" />
 
                 <!-- Text Display Area -->
                 <VBox styleClass="example-text-container">
-                    <TextFlow fx:id="displayText" styleClass="typing-text" />
+                    <TextFlow fx:id="displayText" styleClass="typing-text"  />
                 </VBox>
 
                 <!-- Typing Area -->
@@ -40,6 +41,12 @@
                         styleClass="action-button" 
                         text="Start" 
                         onAction="#handleStartButton"/>
+
+                <!-- Back Button -->
+                <Button fx:id="backButton" 
+                        styleClass="action-button" 
+                        text="Back to Menu"
+                        onAction="#handleBackButton"/>
             </VBox>
         </StackPane>
     </VBox>

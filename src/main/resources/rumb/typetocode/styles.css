@@ -176,6 +176,11 @@
     -fx-text-alignment: center;
 }
 
+.initial-message {
+    -fx-fill: #d4d4d4;
+    -fx-font-size: 22px;
+    -fx-text-alignment: center;
+}
 /* Responsive Design */
 @media screen and (max-width: 600px) {
     .header-text {

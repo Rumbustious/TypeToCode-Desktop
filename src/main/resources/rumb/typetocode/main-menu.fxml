@@ -34,8 +34,11 @@
                     styleClass="menu-button" 
                     text="Start Typing Test" 
                     onAction="#handleTypingTestClick" />
-            <Button styleClass="menu-button" text="Tutorial" />
-            <Button styleClass="menu-button" text="Settings" />
+            <Button styleClass="menu-button" text="Tutorial" onAction="#handleTutorialClick" />
+            <Button fx:id="settingsButton" 
+                    styleClass="menu-button" 
+                    text="Settings" 
+                    onAction="#handleSettingsClick" />
         </VBox>
     </VBox>
 </StackPane>

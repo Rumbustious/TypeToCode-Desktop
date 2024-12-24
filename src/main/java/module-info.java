@@ -1,8 +1,9 @@
-module rumb.typetocode {
+module your.module.name {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.desktop;
     requires javafx.web;
+    requires java.prefs;
 
     requires org.controlsfx.controls;
     requires org.kordamp.ikonli.javafx;

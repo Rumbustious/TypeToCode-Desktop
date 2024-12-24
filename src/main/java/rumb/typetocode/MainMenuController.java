@@ -28,4 +28,32 @@ public class MainMenuController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void handleTutorialClick() {
+        String url = "https://www.w3schools.com/java/";
+        try {
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleSettingsClick(ActionEvent event) {
+        try {
+            // Load SettingsPage.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SettingsPage.fxml"));
+            Parent settingsPage = loader.load();
+
+            // Get the current stage from the event source
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(settingsPage));
+            stage.setTitle("Settings");
+            stage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
