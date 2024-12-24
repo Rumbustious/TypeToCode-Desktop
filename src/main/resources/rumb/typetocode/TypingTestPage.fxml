@@ -11,43 +11,44 @@
         <URL value="@styles.css" />
     </stylesheets>
 
-    <VBox alignment="CENTER" spacing="20" VBox.vgrow="ALWAYS">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
-        
-        <StackPane VBox.vgrow="ALWAYS">
-            <VBox alignment="CENTER" spacing="20" maxWidth="800" minWidth="300">
-                <!-- Title -->
-                <Text styleClass="header-text" text="Typing Speed Test" />
-                
+    <ScrollPane fitToWidth="true" fitToHeight="true" AnchorPane.topAnchor="0" AnchorPane.bottomAnchor="0" AnchorPane.leftAnchor="0" AnchorPane.rightAnchor="0" styleClass="scroll-pane">
+        <VBox alignment="CENTER" spacing="20" VBox.vgrow="ALWAYS" styleClass="vbox">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <StackPane VBox.vgrow="ALWAYS">
+                <VBox alignment="CENTER" spacing="20" maxWidth="800" minWidth="300" styleClass="vbox">
+                    <!-- Title -->
+                    <Text styleClass="header-text" text="Typing Speed Test" />
+                    
+                    <!-- Timer -->
+                    <Label fx:id="timerLabel" styleClass="timer-text" text="Time Left: 60s" />
 
-                <!-- Timer -->
-                <Label fx:id="timerLabel" styleClass="timer-text" text="Time Left: 60s" />
+                    <!-- Text Display Area -->
+                    <VBox styleClass="example-text-container">
+                        <TextFlow fx:id="displayText" styleClass="typing-text" />
+                    </VBox>
 
-                <!-- Text Display Area -->
-                <VBox styleClass="example-text-container">
-                    <TextFlow fx:id="displayText" styleClass="typing-text"  />
+                    <!-- Typing Area -->
+                    <TextArea fx:id="typingArea" 
+                             styleClass="typing-area"
+                             promptText="Type here" 
+                             wrapText="true" />
+
+                    <!-- Start Button -->
+                    <Button fx:id="startButton" 
+                            styleClass="action-button" 
+                            text="Start" 
+                            onAction="#handleStartButton"/>
+
+                    <!-- Back Button -->
+                    <Button fx:id="backButton" 
+                            styleClass="action-button" 
+                            text="Back to Menu"
+                            onAction="#handleBackButton"/>
                 </VBox>
-
-                <!-- Typing Area -->
-                <TextArea fx:id="typingArea" 
-                         styleClass="typing-area"
-                         promptText="Type here" 
-                         wrapText="true" />
-
-                <!-- Start Button -->
-                <Button fx:id="startButton" 
-                        styleClass="action-button" 
-                        text="Start" 
-                        onAction="#handleStartButton"/>
-
-                <!-- Back Button -->
-                <Button fx:id="backButton" 
-                        styleClass="action-button" 
-                        text="Back to Menu"
-                        onAction="#handleBackButton"/>
-            </VBox>
-        </StackPane>
-    </VBox>
+            </StackPane>
+        </VBox>
+    </ScrollPane>
 </AnchorPane>

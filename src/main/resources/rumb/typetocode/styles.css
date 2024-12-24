@@ -4,6 +4,16 @@
     -fx-font-family: "JetBrains Mono", "Consolas", monospace;
 }
 
+/* ScrollPane Styling */
+.scroll-pane {
+    -fx-background-color: #1e1e1e; /* Ensure ScrollPane background is black */
+}
+
+/* VBox Styling */
+.vbox {
+    -fx-background-color: #1e1e1e; /* Ensure VBox background is black */
+}
+
 /* Welcome Screen Styling */
 .welcome-message {
     -fx-fill: #4caf50;
@@ -181,6 +191,7 @@
     -fx-font-size: 22px;
     -fx-text-alignment: center;
 }
+
 /* Responsive Design */
 @media screen and (max-width: 600px) {
     .header-text {
