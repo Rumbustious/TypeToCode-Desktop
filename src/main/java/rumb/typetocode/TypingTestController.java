@@ -231,14 +231,10 @@ public class TypingTestController {
 
         double wpm = Math.floor((correctKeystrokes / 5.0) / elapsedTimeMinutes);
 
-        double accuracy = totalKeystrokes > 0 ? 
-            ((double) correctKeystrokes / totalKeystrokes) * 100 : 0;
-
         displayText.getChildren().clear();
         Text resultText = new Text(String.format(
-            "Test Complete!\nWPM: %.0f\nAccuracy: %.1f%%\n" +
-            "Total Keystrokes: %d\nCorrect Keystrokes: %d\nErrors: %d",
-            wpm, accuracy, totalKeystrokes, correctKeystrokes, errorCount));
+            "Test Complete!\nWPM: %.0f\nAccuracy: %.1f%%",
+            wpm, ((double) correctKeystrokes / totalKeystrokes) * 100));
         resultText.getStyleClass().add("result-text");
         displayText.getChildren().add(resultText);
 
